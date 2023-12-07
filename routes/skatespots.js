@@ -4,7 +4,6 @@ const express = require("express");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const { skatespotSchema } = require("../Schemas.js");
-
 const ExpressError = require("../utils/ExpressError");
 const Skatespot = require("../models/skatespot");
 
