@@ -69,7 +69,7 @@ router.get(
 
 router.put(
   "/:id",
-  validateCampground,
+  validateSkatespot,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findByIdAndUpdate(id, {

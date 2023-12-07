@@ -1,0 +1,52 @@
+<!-- cSpell:ignore Skatespots, skatespot -->
+
+<% layout('layouts/boilerplate') %>
+
+  <div class="row">
+    <h1 class="text-center">New Skatespot</h1>
+    <div class="col-6 offset-3">
+      <form action="/skatespots" method="POST" novalidate class="validated-form">
+        <div class="mb-3">
+          <label class="form-label" for="title">Title</label>
+          <input class="form-control" type="text" id="title" name="skatespot[title]" required>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Please provide a title</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="location">Location</label>
+          <input class="form-control" type="text" id="location" name="skatespot[location]" required>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Please provide a location</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="image">Image Url</label>
+          <input class="form-control" type="text" id="image" name="skatespot[image]" required>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Please provide an image Url</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="price">Skatespot Price</label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="price-label">$</span>
+            </div>
+            <input id="price" type="text" class="form-control" placeholder="0.00" aria-label="price"
+              aria-describedby="price-label" name="skatespot[price]" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide a price</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="description">Description</label>
+          <textarea class="form-control" type="text" id="description" name="skatespot[description]"
+            required></textarea>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Please provide a description</div>
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-success">Add Skatespot</button>
+        </div>
+      </form>
+      <a href="/skatespots">All Skatespots</a>
+    </div>
+  </div>
