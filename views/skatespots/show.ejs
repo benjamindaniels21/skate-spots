@@ -1,0 +1,62 @@
+<% layout('layouts/boilerplate') %>
+
+  <div class="row">
+    <div class="col-6">
+      <div class="card mb-3">
+        <img class="card-img-top" src="<%=skatespot.image  %>" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">
+            <%= skatespot.title %>
+          </h5>
+          <p class="card-text">
+            <%= skatespot.description %>
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item text-muted">
+            <%= skatespot.location %>
+          </li>
+          <li class="list-group-item">$<%= skatespot.price %>/night</li>
+        </ul>
+        <div class="card-body">
+          <a href="/skatespots/<%=skatespot._id%>/edit" class="card-link btn btn-info">Edit skatespot</a>
+          <form class="d-inline" action="/skatespots/<%=skatespot._id%>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+        <div class="card-footer text-muted">
+          2 days ago
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <h2>Leave a Review</h2>
+      <form class="mb-3 validated-form" action="/skatespots/<%=skatespot._id%>/reviews" method="POST" novalidate>
+        <div class="mb-3">
+          <label class="form-label" for="rating">Rating</label>
+          <input type="range" min="1" max="5" id="rating" name="review[rating]">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="body">Review</label>
+          <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <button class="btn btn-success">Submit</button>
+      </form>
+      <% for(let review of skatespot.reviews){ %>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">
+              Rating: <%=review.rating %>
+            </h5>
+            <p class="card-text">
+              Review: <%=review.body %>
+            </p>
+            <form action="/skatespots/<%=skatespot._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+              <button class=" btn btn-sm btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+        <% } %>
+    </div>
+  </div>
