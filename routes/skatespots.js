@@ -43,26 +43,26 @@ router.post(
 router.get(
   "/:id",
   catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id).populate(
+    const skatespot = await Skatespot.findById(req.params.id).populate(
       "reviews"
     );
-    if (!campground) {
-      req.flash("error", "Cannot find that campground!");
-      return res.redirect("/campgrounds");
+    if (!skatespot) {
+      req.flash("error", "Cannot find that skatespot!");
+      return res.redirect("/skatespots");
     }
-    res.render("campgrounds/show", { campground });
+    res.render("skatespots/show", { skatespot });
   })
 );
 
 router.get(
   "/:id/edit",
   catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id);
-    if (!campground) {
-      req.flash("error", "Cannot find that campground!");
-      return res.redirect("/campgrounds");
+    const skatespot = await Skatespot.findById(req.params.id);
+    if (!skatespot) {
+      req.flash("error", "Cannot find that skatespot!");
+      return res.redirect("/skatespots");
     }
-    res.render("campgrounds/edit", { campground });
+    res.render("skatespots/edit", { skatespot });
   })
 );
 
@@ -71,11 +71,11 @@ router.put(
   validateSkatespot,
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const campground = await Campground.findByIdAndUpdate(id, {
-      ...req.body.campground,
+    const skatespot = await Skatespot.findByIdAndUpdate(id, {
+      ...req.body.skatespot,
     });
-    req.flash("success", "Successfully updated campground!");
-    res.redirect(`/campgrounds/${campground._id}`);
+    req.flash("success", "Successfully updated skatespot!");
+    res.redirect(`/skatespots/${skatespot._id}`);
   })
 );
 
@@ -83,9 +83,9 @@ router.delete(
   "/:id",
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    await Campground.findByIdAndDelete(id);
-    req.flash("error", "Successfully deleted campground");
-    res.redirect("/campgrounds");
+    await Skatespot.findByIdAndDelete(id);
+    req.flash("error", "Successfully deleted skatespot");
+    res.redirect("/skatespots");
   })
 );
 
