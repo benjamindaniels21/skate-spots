@@ -4,6 +4,8 @@ const express = require("express");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const { skatespotSchema } = require("../Schemas.js");
+const { isLoggedIn } = require("../middleware.js");
+ß;
 const ExpressError = require("../utils/ExpressError");
 const Skatespot = require("../models/skatespot");
 
@@ -31,6 +33,7 @@ router.get("/new", (req, res) => {
 
 router.post(
   "/",
+  isLoggedIn,
   validateSkatespot,
   catchAsync(async (req, res, next) => {
     const skatespot = new Skatespot(req.body.skatespot);
