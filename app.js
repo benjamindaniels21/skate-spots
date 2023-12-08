@@ -11,8 +11,9 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const User = require("./models/user");
 
-const skatespots = require("./routes/skatespots");
-const reviews = require("./routes/reviews");
+const userRoutes = require("./routes/users");
+const skatespotRoutes = require("./routes/skatespots");
+const reviewRoutes = require("./routes/reviews");
 
 mongoose.connect("mongodb://localhost:27017/skate-spots");
 
@@ -59,8 +60,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/skatespots", skatespots);
-app.use("/skatespots/:id/reviews", reviews);
+app.use("/", userRoutes);
+app.use("/skatespots", skatespotRoutes);
+app.use("/skatespots/:id/reviews", reviewRoutes);
 
 app.get("/", (req, res) => {
   res.render("home");
