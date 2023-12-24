@@ -4,9 +4,18 @@ const Review = require("./review");
 
 const SkatespotSchema = new Schema({
   title: String,
-  image: String,
+  images: [
+    {
+      url: String,
+      filename: String,
+    },
+  ],
   price: Number,
   description: String,
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   location: String,
   reviews: [
     {
