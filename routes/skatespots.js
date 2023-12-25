@@ -4,19 +4,13 @@ const express = require("express");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const { skatespotSchema } = require("../Schemas.js");
-const { isLoggedIn } = require("../middleware.js");
+const { isLoggedIn, validateSkatespot, isAuthor } = require("../middleware.js");
 const ExpressError = require("../utils/ExpressError");
 const Skatespot = require("../models/skatespot");
-
-const validateSkatespot = (req, res, next) => {
-  const { error } = skatespotSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
+const skatespots = require("../controllers/skatespot.js");
+const multer = require("multer");
+const { storage } = require("../cloudinary");
+const upload = multer({ storage });
 
 router.get(
   "/",
