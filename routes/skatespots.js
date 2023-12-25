@@ -12,77 +12,35 @@ const multer = require("multer");
 const { storage } = require("../cloudinary");
 const upload = multer({ storage });
 
-router.get(
-  "/",
-  catchAsync(async (req, res) => {
-    const skatespots = await Skatespot.find({});
-    res.render("skatespots/index", { skatespots });
-  })
-);
+router
+  .route("/")
+  .get(catchAsync(skatespots.index))
+  .post(
+    isLoggedIn,
+    upload.array("image"),
+    validateSkatespot,
+    catchAsync(skatespots.createSkatespot)
+  );
 
-router.get("/new", (req, res) => {
-  res.render("skatespots/new");
-});
+router.get("/new", isLoggedIn, skatespots.renderNewForm);
 
-router.post(
-  "/",
-  isLoggedIn,
-  validateSkatespot,
-  catchAsync(async (req, res, next) => {
-    const skatespot = new Skatespot(req.body.skatespot);
-    await skatespot.save();
-    req.flash("success", "Successfully made a new skate spot!");
-    res.redirect(`/skatespots/${skatespot._id}`);
-  })
-);
-
-router.get(
-  "/:id",
-  catchAsync(async (req, res) => {
-    const skatespot = await Skatespot.findById(req.params.id).populate(
-      "reviews"
-    );
-    if (!skatespot) {
-      req.flash("error", "Cannot find that skatespot!");
-      return res.redirect("/skatespots");
-    }
-    res.render("skatespots/show", { skatespot });
-  })
-);
+router
+  .route("/:id")
+  .get(catchAsync(skatespots.showSkatespot))
+  .put(
+    isLoggedIn,
+    isAuthor,
+    upload.array("image"),
+    validateSkatespot,
+    catchAsync(skatespots.updateSkatespot)
+  )
+  .delete(isLoggedIn, catchAsync(skatespots.deleteSkatespot));
 
 router.get(
   "/:id/edit",
-  catchAsync(async (req, res) => {
-    const skatespot = await Skatespot.findById(req.params.id);
-    if (!skatespot) {
-      req.flash("error", "Cannot find that skatespot!");
-      return res.redirect("/skatespots");
-    }
-    res.render("skatespots/edit", { skatespot });
-  })
-);
-
-router.put(
-  "/:id",
-  validateSkatespot,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const skatespot = await Skatespot.findByIdAndUpdate(id, {
-      ...req.body.skatespot,
-    });
-    req.flash("success", "Successfully updated skatespot!");
-    res.redirect(`/skatespots/${skatespot._id}`);
-  })
-);
-
-router.delete(
-  "/:id",
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Skatespot.findByIdAndDelete(id);
-    req.flash("error", "Successfully deleted skatespot");
-    res.redirect("/skatespots");
-  })
+  isLoggedIn,
+  isAuthor,
+  catchAsync(skatespots.renderEditForm)
 );
 
 module.exports = router;
